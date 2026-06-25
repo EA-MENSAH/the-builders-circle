@@ -5,12 +5,14 @@ import Avatar from '../components/ui/Avatar'
 import Icon from '../components/ui/Icon'
 import { memberById } from '../data/mockData'
 import { ARCHETYPES } from '../data/archetypes'
+import { toast } from '../store/useToast'
 
 export default function MemberDetail() {
   const { id } = useParams()
   const m = memberById(id)
   if (!m) return <Page><ScreenHeader back title="Not found" /></Page>
   const arch = m.archetype ? ARCHETYPES[m.archetype] : null
+  const first = m.name.split(' ')[0]
 
   return (
     <Page>
@@ -26,8 +28,8 @@ export default function MemberDetail() {
       </div>
 
       <div className="my-5 grid grid-cols-2 gap-3">
-        <button className="btn-navy">Message</button>
-        <button className="btn-ghost">Request intro</button>
+        <button onClick={() => toast(`Message sent to ${first}`, { icon: 'send' })} className="btn-navy">Message</button>
+        <button onClick={() => toast(`Intro requested with ${first}`, { icon: 'handshake' })} className="btn-ghost">Request intro</button>
       </div>
 
       {arch && (

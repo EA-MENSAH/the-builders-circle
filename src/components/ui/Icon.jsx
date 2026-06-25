@@ -36,6 +36,17 @@ const paths = {
   globe: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM3 12h18M12 3c2.5 2.5 3.5 6 3.5 9S14.5 18.5 12 21M12 3c-2.5 2.5-3.5 6-3.5 9s1 6.5 3.5 9',
   menu: 'M4 7h16M4 12h16M4 17h16',
   lock: 'M7 11V8a5 5 0 0 1 10 0v3M6 11h12a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z',
+  trendingUp: 'M3 17l6-6 4 4 8-8M15 7h6v6',
+  groups: 'M7 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM17 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM2 20a5 5 0 0 1 10 0M12 20a5 5 0 0 1 10 0',
+  handshake: 'M8 13l2.5 2.5a1.5 1.5 0 0 0 2.1 0l3.4-3.4 3 3M3 8l4-2 5 4M21 8l-4-2-3 2M3 8v6l3 2M21 8v6l-3 2',
+  tune: 'M4 6h10M18 6h2M4 12h2M10 12h10M4 18h7M15 18h5M14 4v4M6 10v4M11 16v4',
+  account: 'M5 21V5a2 2 0 0 1 2-2h7l5 5v13a0 0 0 0 1 0 0M5 21h14M9 8h2M9 12h6M9 16h6',
+  gavel: 'm14 13-7 7-2-2 7-7M11 6l5 5M9 8l7-7 3 3-7 7M14 16l4 4',
+  send: 'M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z',
+  sparkle: 'M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z',
+  bookmark: 'M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z',
+  flag: 'M5 21V4M5 4h12l-2 4 2 4H5',
+  bridge: 'M3 9c4 0 4 3 9 3s5-3 9-3M3 9V6M21 9V6M5 12v7M19 12v7M12 12v7',
 }
 
 export default function Icon({ name, size = 22, className = '', strokeWidth = 1.6, ...rest }) {

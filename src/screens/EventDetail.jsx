@@ -5,6 +5,7 @@ import Avatar from '../components/ui/Avatar'
 import Icon from '../components/ui/Icon'
 import { formatDate } from '../components/cards'
 import { useStore } from '../store/useStore'
+import { toast } from '../store/useToast'
 import { memberById } from '../data/mockData'
 
 export default function EventDetail() {
@@ -75,7 +76,10 @@ export default function EventDetail() {
 
       {/* sticky RSVP */}
       <div className="absolute inset-x-0 bottom-0 z-20 border-t border-line-subtle bg-paper-0/95 px-5 py-4 pb-safe backdrop-blur-xl">
-        <button onClick={() => toggleRsvp(id)} className={going ? 'btn-ghost w-full' : 'btn-navy w-full'}>
+        <button
+          onClick={() => { toggleRsvp(id); toast(going ? 'RSVP cancelled' : 'Seat reserved — see you there', { icon: going ? 'plus' : 'check' }) }}
+          className={going ? 'btn-ghost w-full' : 'btn-navy w-full'}
+        >
           {going ? (
             <><Icon name="check" size={18} strokeWidth={2.4} /> You’re going — tap to cancel</>
           ) : (

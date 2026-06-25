@@ -5,6 +5,7 @@ import { useStore } from '../store/useStore'
 import { Mark } from '../components/ui/Logo'
 import Icon from '../components/ui/Icon'
 import BuilderCodeSheet from '../components/BuilderCodeSheet'
+import { toast } from '../store/useToast'
 
 export default function Join() {
   const navigate = useNavigate()
@@ -18,6 +19,7 @@ export default function Join() {
     if (name.trim()) useStore.getState().updateUser({ name: name.trim() })
     signIn()
     navigate('/home', { replace: true })
+    toast(`Welcome to the Circle, ${name.trim().split(' ')[0]}`, { icon: 'sparkle' })
   }
 
   return (

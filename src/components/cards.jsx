@@ -1,10 +1,13 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import Avatar from './ui/Avatar'
 import Icon from './ui/Icon'
+import { CommentsSheet } from './sheets'
 import { memberById, FEED_TYPES, RESOURCE_FORMATS } from '../data/mockData'
 import { ARCHETYPES } from '../data/archetypes'
 import { useStore } from '../store/useStore'
+import { toast } from '../store/useToast'
 
 // ---- Feed post -------------------------------------------------------------
 export function FeedCard({ post }) {
@@ -13,6 +16,12 @@ export function FeedCard({ post }) {
   const cheered = useStore((s) => s.cheered[post.id])
   const toggleCheer = useStore((s) => s.toggleCheer)
   const navigate = useNavigate()
+  const [showComments, setShowComments] = useState(false)
+
+  const onCheer = () => {
+    toggleCheer(post.id)
+    if (!cheered) toast('You cheered this', { icon: 'heart' })
+  }
 
   return (
     <motion.article layout className="card p-4">
@@ -32,21 +41,33 @@ export function FeedCard({ post }) {
       <p className="text-body-md text-ink-700">{post.body}</p>
       <div className="mt-4 flex items-center gap-5 text-ink-400">
         <button
-          onClick={() => toggleCheer(post.id)}
+          onClick={onCheer}
           className={`flex items-center gap-1.5 text-xs font-medium transition-colors active:scale-95 ${
             cheered ? 'text-gold-600' : 'hover:text-ink-600'
           }`}
+          aria-pressed={cheered}
+          aria-label="Cheer this post"
         >
           <Icon name="heart" size={17} strokeWidth={cheered ? 2.2 : 1.7} />
           {post.cheers}
         </button>
-        <span className="flex items-center gap-1.5 text-xs">
+        <button
+          onClick={() => setShowComments(true)}
+          className="flex items-center gap-1.5 text-xs font-medium hover:text-ink-600 active:scale-95"
+          aria-label="View comments"
+        >
           <Icon name="comment" size={17} /> {post.comments}
-        </span>
-        <button className="ml-auto hover:text-ink-600">
+        </button>
+        <button
+          onClick={() => toast('Link copied', { icon: 'share' })}
+          className="ml-auto hover:text-ink-600"
+          aria-label="Share"
+        >
           <Icon name="share" size={16} />
         </button>
       </div>
+
+      <CommentsSheet postId={post.id} open={showComments} onClose={() => setShowComments(false)} />
     </motion.article>
   )
 }
@@ -154,9 +175,12 @@ export function OpportunityCard({ opp }) {
       <div className="mt-3 flex items-center gap-2 border-t border-line-subtle pt-3">
         <Avatar member={poster} size={26} ring={false} />
         <span className="text-[11px] text-ink-400">Shared by {poster?.name}</span>
-        <span className="ml-auto flex items-center gap-1 text-[11px] font-semibold text-gold-700">
+        <button
+          onClick={() => toast(`Reached out about “${opp.title}”`, { icon: 'send' })}
+          className="ml-auto flex items-center gap-1 text-[11px] font-semibold text-gold-700 active:scale-95"
+        >
           Reach out <Icon name="arrowRight" size={13} />
-        </span>
+        </button>
       </div>
     </div>
   )

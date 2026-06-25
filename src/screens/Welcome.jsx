@@ -18,7 +18,7 @@ export default function Welcome() {
         <span className="font-display text-[13px] font-semibold uppercase tracking-[0.14em] text-navy">
           The Builders Circle
         </span>
-        <span className="h-7 w-7 rounded-full bg-navy-grad" />
+        <button onClick={() => navigate('/join')} className="h-7 w-7 rounded-full bg-navy-grad active:scale-95" aria-label="Sign in" />
       </div>
 
       <motion.div

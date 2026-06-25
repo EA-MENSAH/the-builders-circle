@@ -2,6 +2,7 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import AppShell from './components/layout/AppShell'
 import TabBar from './components/layout/TabBar'
+import Toaster from './components/ui/Toaster'
 import { useStore } from './store/useStore'
 
 import Welcome from './screens/Welcome'
@@ -53,6 +54,7 @@ export default function App() {
         </AnimatePresence>
       </div>
       {showTabBar && <TabBar />}
+      <Toaster />
     </AppShell>
   )
 }

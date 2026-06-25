@@ -4,8 +4,6 @@ import { PILLARS } from '../data/mockData'
 import { Mark } from '../components/ui/Logo'
 import Icon from '../components/ui/Icon'
 
-const PILLAR_ICON = { build: 'grow', belong: 'users', bridge: 'compass' }
-
 export default function Onboarding() {
   const navigate = useNavigate()
 
@@ -49,7 +47,7 @@ export default function Onboarding() {
           >
             <div className="flex items-start gap-3.5">
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-gold-100 text-gold-700">
-                <Icon name={PILLAR_ICON[p.key]} size={22} />
+                <Icon name={p.icon} size={22} />
               </span>
               <div className="min-w-0">
                 <div className="eyebrow">Pillar {p.num}</div>

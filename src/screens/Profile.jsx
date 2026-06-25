@@ -4,6 +4,7 @@ import Page from '../components/layout/Page'
 import Avatar from '../components/ui/Avatar'
 import Icon from '../components/ui/Icon'
 import BuilderCodeSheet from '../components/BuilderCodeSheet'
+import { EditProfileSheet } from '../components/sheets'
 import { useStore } from '../store/useStore'
 import { ARCHETYPES } from '../data/archetypes'
 import { BUILDER_JOURNEY, BUILDER_CODE } from '../data/mockData'
@@ -11,6 +12,7 @@ import { BUILDER_JOURNEY, BUILDER_CODE } from '../data/mockData'
 export default function Profile() {
   const navigate = useNavigate()
   const [showCode, setShowCode] = useState(false)
+  const [showEdit, setShowEdit] = useState(false)
   const user = useStore((s) => s.user)
   const signOut = useStore((s) => s.signOut)
   const arch = user.archetype ? ARCHETYPES[user.archetype] : null
@@ -20,7 +22,7 @@ export default function Profile() {
     <Page>
       <header className="sticky top-0 z-20 -mx-5 mb-2 flex items-center justify-between border-b border-line-subtle bg-paper/85 px-5 pb-2 pt-safe backdrop-blur-xl">
         <h1 className="h-display pt-3 text-headline-sm">Profile</h1>
-        <button className="pt-3 text-ink-600" aria-label="Settings">
+        <button onClick={() => setShowEdit(true)} className="pt-3 text-ink-600 active:scale-95" aria-label="Edit profile">
           <Icon name="settings" size={21} />
         </button>
       </header>
@@ -34,7 +36,7 @@ export default function Profile() {
           <span className="flex items-center gap-1"><Icon name="briefcase" size={13} /> {user.profession}</span>
           <span className="flex items-center gap-1"><Icon name="pin" size={13} /> {user.location}</span>
         </div>
-        <button className="mt-4 flex items-center gap-1.5 rounded-full border border-line bg-paper-0 px-4 py-2 text-xs font-semibold text-ink-600">
+        <button onClick={() => setShowEdit(true)} className="mt-4 flex items-center gap-1.5 rounded-full border border-line bg-paper-0 px-4 py-2 text-xs font-semibold text-ink-600 active:scale-95">
           <Icon name="edit" size={14} /> Edit profile
         </button>
       </div>
@@ -115,6 +117,7 @@ export default function Profile() {
       </button>
 
       <BuilderCodeSheet open={showCode} onClose={() => setShowCode(false)} />
+      <EditProfileSheet open={showEdit} onClose={() => setShowEdit(false)} />
     </Page>
   )
 }

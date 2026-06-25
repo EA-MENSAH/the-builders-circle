@@ -6,6 +6,7 @@ import Segmented from '../components/ui/Segmented'
 import Icon from '../components/ui/Icon'
 import { FeedCard, MemberRow } from '../components/cards'
 import { useStore } from '../store/useStore'
+import { toast } from '../store/useToast'
 import { MEMBERS } from '../data/mockData'
 
 export default function Circle() {
@@ -58,6 +59,7 @@ function Feed() {
     addPost(type, body.trim())
     setBody('')
     setOpen(false)
+    toast('Shared with the Circle')
   }
 
   return (

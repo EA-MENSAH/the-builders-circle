@@ -448,25 +448,41 @@ export const PILLARS = [
     num: '01',
     name: 'Level Up',
     sub: 'Build',
+    icon: 'trendingUp',
     prompt: 'How am I becoming?',
-    body: 'Continuous growth in character, knowledge, leadership, faith, and professional excellence. We can’t build meaningfully outside if we aren’t developing inside.',
+    body: 'Constant iterative improvement of self. Refined discipline, acquired mastery, and the pursuit of individual excellence.',
   },
   {
     key: 'belong',
     num: '02',
     name: 'Link Up',
     sub: 'Belong',
+    icon: 'groups',
     prompt: 'Who am I becoming with?',
-    body: 'A community where members are supported, challenged, encouraged, and held accountable. Growth is better together.',
+    body: 'Intentional community alignment. Surrounding yourself with builders who demand as much from you as you do from them.',
   },
   {
     key: 'bridge',
     num: '03',
     name: 'Lift Up',
     sub: 'Bridge',
+    icon: 'handshake',
     prompt: 'Who benefits from my growth?',
-    body: 'Using our knowledge, relationships, influence, and resources to create opportunities for others. We lift as we climb.',
+    body: 'The legacy of expansion. Creating utility and opening doors for others as you ascend to new levels of influence.',
   },
+]
+
+// Onboarding checklist — the First 90 Days journey (from the Stitch Dashboard).
+export const ONBOARDING_CHECKLIST = [
+  { id: 'profile', label: 'Complete your profile', meta: 'Estimated: 10 mins', action: '/profile' },
+  { id: 'assessment', label: 'Take the Builder Assessment', meta: 'Estimated: 2 mins', action: '/assessment' },
+  { id: 'framework', label: 'Read the framework', meta: 'Estimated: 45 mins', action: '/grow' },
+  { id: 'welcome', label: 'Attend a welcome conversation', meta: 'Mandatory event', action: '/events' },
+  { id: 'introduce', label: 'Introduce yourself to the Circle', meta: 'Share your first post', action: '/circle' },
+  { id: 'connect', label: 'Make 2 meaningful connections', meta: 'Browse the directory', action: '/circle' },
+  { id: 'rsvp', label: 'RSVP to your first gathering', meta: "Builder’s Table or Session", action: '/events' },
+  { id: 'opportunity', label: 'Explore the opportunity board', meta: 'Find or share one', action: '/grow?tab=opportunities' },
+  { id: 'review', label: 'Quarterly roadmap review', meta: 'Unlocks after the above', action: null, locked: true },
 ]
 
 // ---- Builder Code (§1.8) — surfaced in onboarding / profile -----------------

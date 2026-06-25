@@ -61,11 +61,36 @@ export const useStore = create(
           ],
         })),
 
+      // --- comments ---
+      comments: {}, // {postId: [{id, authorId, body, time}]}
+      addComment: (postId, body) =>
+        set((s) => {
+          const c = {
+            id: 'c-' + Math.random().toString(36).slice(2, 8),
+            authorId: s.user.id,
+            body,
+            time: 'now',
+          }
+          return {
+            comments: { ...s.comments, [postId]: [...(s.comments[postId] || []), c] },
+            feed: s.feed.map((p) => (p.id === postId ? { ...p, comments: p.comments + 1 } : p)),
+          }
+        }),
+
       // --- events / RSVP ---
       events: EVENTS,
       rsvps: {}, // {eventId: true}
       toggleRsvp: (eventId) =>
         set((s) => ({ rsvps: { ...s.rsvps, [eventId]: !s.rsvps[eventId] } })),
+
+      // --- onboarding checklist (First 90 Days) ---
+      checklist: {}, // {itemId: true}
+      toggleChecklistItem: (id) =>
+        set((s) => ({ checklist: { ...s.checklist, [id]: !s.checklist[id] } })),
+      setChecklistItem: (id, value) =>
+        set((s) =>
+          s.checklist[id] === value ? {} : { checklist: { ...s.checklist, [id]: value } }
+        ),
 
       // --- derived helpers ---
       isGoing: (eventId) => !!get().rsvps[eventId],
@@ -84,6 +109,8 @@ export const useStore = create(
         cheered: s.cheered,
         feed: s.feed,
         rsvps: s.rsvps,
+        comments: s.comments,
+        checklist: s.checklist,
       }),
     }
   )
