@@ -64,7 +64,7 @@ export default function WelcomeImmersive() {
           transition={{ delay: 0.25, duration: 0.5 }}
           className="space-y-4"
         >
-          <button onClick={() => navigate('/onboarding')} className="btn-gold w-full py-4">
+          <button onClick={() => navigate('/code')} className="btn-gold w-full py-4">
             Begin your journey <Icon name="arrowRight" size={18} />
           </button>
           <button onClick={() => navigate('/welcome')} className="w-full text-center text-xs font-medium text-navy-200">

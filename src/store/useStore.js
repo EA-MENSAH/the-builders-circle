@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { CURRENT_USER, FEED, EVENTS, MARKETPLACE, SEED_GOALS } from '../data/mockData'
+import { CURRENT_USER, FEED, EVENTS, MARKETPLACE, SEED_GOALS, RECOGNITIONS, PROJECT_SPACES } from '../data/mockData'
 import { scoreAssessment, ARCHETYPES } from '../data/archetypes'
 
 // Single source of truth for the prototype. Persisted to localStorage so the
@@ -112,6 +112,36 @@ export const useStore = create(
       offeringMentorship: false,
       toggleOfferMentorship: () => set((s) => ({ offeringMentorship: !s.offeringMentorship })),
 
+      // --- Phase 2: Recognition ---
+      recognitions: RECOGNITIONS,
+      giveRecognition: ({ toId, type, note }) =>
+        set((s) => ({
+          recognitions: [
+            { id: 'rc-' + Math.random().toString(36).slice(2, 8), fromId: s.user.id, toId, type, note, time: 'now' },
+            ...s.recognitions,
+          ],
+        })),
+
+      // --- Phase 2: Discussion Groups ---
+      joinedGroups: {}, // {groupId: true}
+      toggleGroup: (id) => set((s) => ({ joinedGroups: { ...s.joinedGroups, [id]: !s.joinedGroups[id] } })),
+
+      // --- Phase 2: Project Spaces ---
+      projectSpaces: PROJECT_SPACES,
+      joinedSpaces: {}, // {spaceId: true}
+      toggleSpace: (id) => set((s) => ({ joinedSpaces: { ...s.joinedSpaces, [id]: !s.joinedSpaces[id] } })),
+      addProjectSpace: ({ name, desc }) =>
+        set((s) => {
+          const id = 'ps-' + Math.random().toString(36).slice(2, 8)
+          return {
+            projectSpaces: [
+              { id, name, ownerId: s.user.id, status: 'Forming', desc, memberIds: [s.user.id], updates: [] },
+              ...s.projectSpaces,
+            ],
+            joinedSpaces: { ...s.joinedSpaces, [id]: true },
+          }
+        }),
+
       // --- onboarding checklist (First 90 Days) ---
       checklist: {}, // {itemId: true}
       toggleChecklistItem: (id) =>
@@ -144,6 +174,10 @@ export const useStore = create(
         goals: s.goals,
         mentorRequests: s.mentorRequests,
         offeringMentorship: s.offeringMentorship,
+        recognitions: s.recognitions,
+        joinedGroups: s.joinedGroups,
+        projectSpaces: s.projectSpaces,
+        joinedSpaces: s.joinedSpaces,
       }),
     }
   )

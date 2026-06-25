@@ -56,7 +56,7 @@ export default function Welcome() {
         transition={{ delay: 0.2, duration: 0.5 }}
         className="space-y-4"
       >
-        <button onClick={() => navigate('/onboarding')} className="btn-navy w-full py-4">
+        <button onClick={() => navigate('/code')} className="btn-navy w-full py-4">
           Begin your journey
           <Icon name="arrowRight" size={18} />
         </button>

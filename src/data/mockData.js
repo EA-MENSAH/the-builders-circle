@@ -565,6 +565,85 @@ export const SEED_GOALS = [
   { id: 'g3', category: 'Personal', title: 'Have one intentional conversation a week', progress: 50 },
 ]
 
+// ---- Phase 2: Member Recognition -------------------------------------------
+export const RECOGNITION_TYPES = {
+  contribution: { label: 'Contribution', icon: 'heart' },
+  leadership: { label: 'Leadership', icon: 'trendingUp' },
+  mentorship: { label: 'Mentorship', icon: 'handshake' },
+  impact: { label: 'Community Impact', icon: 'globe' },
+}
+
+export const RECOGNITIONS = [
+  { id: 'rc1', fromId: 'm-deborah', toId: 'm-zara', type: 'impact', note: 'For graduating 15 young women into tech — this is what Lift Up looks like.', time: '2d' },
+  { id: 'rc2', fromId: 'm-angel', toId: 'm-elisha', type: 'contribution', note: 'For shipping the first build of the platform for all of us.', time: '3d' },
+  { id: 'rc3', fromId: 'm-kwame', toId: 'm-henry', type: 'mentorship', note: 'The intros you made changed the trajectory of my startup.', time: '5d' },
+  { id: 'rc4', fromId: 'm-naa', toId: 'm-deborah', type: 'leadership', note: 'For holding the standard and keeping us all organised.', time: '1w' },
+]
+
+// ---- Phase 2: Discussion Groups --------------------------------------------
+export const DISCUSSION_GROUPS = [
+  {
+    id: 'dg-entrepreneurship', name: 'Entrepreneurship', icon: 'trendingUp',
+    desc: 'Founders & operators trading playbooks on building ventures.',
+    memberIds: ['m-kwame', 'm-tunde', 'm-naa', 'm-elisha'],
+    threads: [
+      { id: 't1', authorId: 'm-kwame', title: 'How are you handling churn pre-PMF?', replies: 8, time: '4h' },
+      { id: 't2', authorId: 'm-naa', title: 'Finding a technical co-founder in Accra', replies: 5, time: '1d' },
+    ],
+  },
+  {
+    id: 'dg-technology', name: 'Technology', icon: 'sparkle',
+    desc: 'AI, product, and engineering — what we’re building and learning.',
+    memberIds: ['m-elisha', 'm-tunde'],
+    threads: [{ id: 't3', authorId: 'm-elisha', title: 'Shipping with AI agents — what’s actually working?', replies: 12, time: '6h' }],
+  },
+  {
+    id: 'dg-finance', name: 'Finance', icon: 'briefcase',
+    desc: 'Investing, fundraising, and financial discipline for builders.',
+    memberIds: ['m-tunde', 'm-kwame'],
+    threads: [{ id: 't4', authorId: 'm-tunde', title: 'Pre-seed valuations in African markets', replies: 6, time: '2d' }],
+  },
+  {
+    id: 'dg-leadership', name: 'Leadership', icon: 'groups',
+    desc: 'Becoming the kind of leaders the Circle is built on.',
+    memberIds: ['m-deborah', 'm-angel', 'm-david'],
+    threads: [{ id: 't5', authorId: 'm-angel', title: 'Leading without a title', replies: 9, time: '3d' }],
+  },
+  {
+    id: 'dg-faith', name: 'Faith & Purpose', icon: 'compass',
+    desc: 'Calling, ethics, stewardship, and building with meaning.',
+    memberIds: ['m-david', 'm-zara'],
+    threads: [{ id: 't6', authorId: 'm-david', title: 'What does stewardship look like in business?', replies: 7, time: '4d' }],
+  },
+]
+
+// ---- Phase 2: Project Spaces -----------------------------------------------
+export const PROJECT_SPACES = [
+  {
+    id: 'ps1', name: 'TBC Platform', ownerId: 'm-elisha', status: 'Active',
+    desc: 'Building the digital home of the Circle — profiles, events, and tools.',
+    memberIds: ['m-elisha', 'm-angel', 'm-deborah'],
+    updates: [
+      { id: 'u1', authorId: 'm-elisha', body: 'Phase 2 features are live in the prototype 🎉', time: '2h' },
+      { id: 'u2', authorId: 'm-angel', body: 'Brand pass done — the gold/navy system feels right.', time: '1d' },
+    ],
+  },
+  {
+    id: 'ps2', name: 'Builder Scholarships', ownerId: 'm-zara', status: 'Forming',
+    desc: 'A pilot fund to support certifications, courses, and conferences.',
+    memberIds: ['m-zara', 'm-tunde', 'm-david'],
+    updates: [{ id: 'u3', authorId: 'm-zara', body: 'Drafting the one-pager — looking for 2 more collaborators.', time: '3d' }],
+  },
+  {
+    id: 'ps3', name: 'Builder Impact Day', ownerId: 'm-deborah', status: 'Planning',
+    desc: 'A collective service day — school, cleanup, and a skills workshop.',
+    memberIds: ['m-deborah', 'm-naa', 'm-henry'],
+    updates: [{ id: 'u4', authorId: 'm-deborah', body: 'Venue shortlist ready. Targeting late August.', time: '5d' }],
+  },
+]
+
+export const PROJECT_STATUS_TONE = { Active: 'gold', Forming: 'navy', Planning: 'muted' }
+
 export function memberById(id) {
   if (id === CURRENT_USER.id) return CURRENT_USER
   return MEMBERS.find((m) => m.id === id)

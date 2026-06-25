@@ -9,6 +9,7 @@ import { useStore } from './store/useStore'
 import Welcome from './screens/Welcome'
 // code-split: three.js only loads when the immersive intro is opened
 const WelcomeImmersive = lazy(() => import('./screens/WelcomeImmersive'))
+import Code from './screens/Code'
 import Onboarding from './screens/Onboarding'
 import Join from './screens/Join'
 import Home from './screens/Home'
@@ -24,6 +25,11 @@ import FounderDashboard from './screens/FounderDashboard'
 import Marketplace from './screens/Marketplace'
 import Goals from './screens/Goals'
 import Mentorship from './screens/Mentorship'
+import Recognition from './screens/Recognition'
+import Groups from './screens/Groups'
+import GroupDetail from './screens/GroupDetail'
+import Spaces from './screens/Spaces'
+import SpaceDetail from './screens/SpaceDetail'
 
 const TAB_ROUTES = ['/home', '/circle', '/events', '/grow', '/profile']
 
@@ -49,6 +55,7 @@ export default function App() {
                 </Suspense>
               }
             />
+            <Route path="/code" element={<Code />} />
             <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/join" element={<Join />} />
 
@@ -65,6 +72,11 @@ export default function App() {
             <Route path="/marketplace" element={gate(<Marketplace />)} />
             <Route path="/goals" element={gate(<Goals />)} />
             <Route path="/mentorship" element={gate(<Mentorship />)} />
+            <Route path="/recognition" element={gate(<Recognition />)} />
+            <Route path="/groups" element={gate(<Groups />)} />
+            <Route path="/group/:id" element={gate(<GroupDetail />)} />
+            <Route path="/spaces" element={gate(<Spaces />)} />
+            <Route path="/space/:id" element={gate(<SpaceDetail />)} />
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

@@ -91,14 +91,18 @@ src/
   `colors.navy` / `colors.gold` / `colors.paper`.
 - **Backend**: swap the Zustand mock store for an API/Supabase layer; the data
   shapes in `src/data/` are the contract.
-- **Phase 2 (built):** Builder Introductions (Home), **Builder Marketplace**
-  (`/marketplace` — I'm Building / I Need / I Can Offer), **Goal Tracking**
-  (`/goals` — personal/professional/learning with progress), **Mentorship
-  Matching** (`/mentorship` — seek/offer + request). Surfaced via the "Builder
-  tools" section on the Dashboard. Still open: Recognition, Discussion Groups,
-  Project Spaces.
+- **Phase 2 (built):** Builder Introductions (Home) · **Marketplace**
+  (`/marketplace` — I'm Building / I Need / I Can Offer) · **Goal Tracking**
+  (`/goals`) · **Mentorship** (`/mentorship`) · **Recognition** (`/recognition`)
+  · **Discussion Groups** (`/groups`, `/group/:id`) · **Project Spaces**
+  (`/spaces`, `/space/:id`). All surfaced via the "Builder tools" grid on the
+  Dashboard.
+- **Onboarding flow:** Welcome → **Builder Code acknowledgment** (`/code` — check
+  off all 10 principles, faithful to the Stitch "Code" screen, with the WebGL
+  shader header) → Pillars (`/onboarding`) → Join (`/join`).
 - **Immersive intro:** `/welcome/immersive` — a navy 3D landing (faithful port
   of the Stitch "Calm 3D" Three.js scene: Core / Network / Rays = the three
-  pillars). Code-split so three.js only loads on that route. Reachable from the
-  classic Welcome via "View the immersive intro".
+  pillars). Code-split so three.js only loads on that route. The Stitch GLSL
+  **shader** is ported too (`components/ShaderBackground.jsx`, raw WebGL) and
+  used on the Code screen header.
 ```

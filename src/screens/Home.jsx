@@ -19,9 +19,12 @@ const QUICK = [
 ]
 
 const TOOLS = [
-  { to: '/marketplace', icon: 'handshake', label: 'Marketplace', desc: 'Build · Need · Offer' },
-  { to: '/goals', icon: 'target', label: 'Goals', desc: 'Track your growth' },
-  { to: '/mentorship', icon: 'groups', label: 'Mentorship', desc: 'Give & receive' },
+  { to: '/marketplace', icon: 'handshake', label: 'Marketplace' },
+  { to: '/goals', icon: 'target', label: 'Goals' },
+  { to: '/mentorship', icon: 'groups', label: 'Mentorship' },
+  { to: '/recognition', icon: 'heart', label: 'Recognition' },
+  { to: '/groups', icon: 'comment', label: 'Discussion' },
+  { to: '/spaces', icon: 'briefcase', label: 'Project Spaces' },
 ]
 
 export default function Home() {
@@ -235,21 +238,17 @@ export default function Home() {
 
       {/* builder tools (Phase 2) */}
       <SectionTitle title="Builder tools" navigate={navigate} />
-      <div className="mb-6 space-y-2.5">
+      <div className="mb-6 grid grid-cols-2 gap-3">
         {TOOLS.map((t) => (
           <button
             key={t.to}
             onClick={() => navigate(t.to)}
-            className="card flex w-full items-center gap-3.5 p-3.5 text-left active:scale-[0.99]"
+            className="card flex items-center gap-3 p-3.5 text-left active:scale-[0.99]"
           >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-navy text-gold-300">
-              <Icon name={t.icon} size={20} />
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-navy text-gold-300">
+              <Icon name={t.icon} size={19} />
             </span>
-            <div className="min-w-0 flex-1">
-              <div className="text-sm font-semibold text-navy">{t.label}</div>
-              <div className="text-[11px] text-ink-400">{t.desc}</div>
-            </div>
-            <Icon name="chevronRight" size={18} className="text-ink-200" />
+            <span className="min-w-0 flex-1 text-sm font-semibold leading-tight text-navy">{t.label}</span>
           </button>
         ))}
       </div>
