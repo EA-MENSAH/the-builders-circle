@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: #ededeb;
+    color: theme('colors.ink.900');
+    font-family: theme('fontFamily.sans');
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior-y: none;
+  }
+
+  ::selection {
+    background: rgba(184, 150, 12, 0.22);
+    color: #04122e;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+}
+
+@layer components {
+  /* the phone the experience lives inside */
+  .device {
+    @apply relative mx-auto flex h-full w-full max-w-[480px] flex-col overflow-hidden bg-paper;
+  }
+
+  .screen {
+    @apply relative flex-1 overflow-y-auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* uppercase organizational labels — high-end stationery feel */
+  .eyebrow {
+    @apply text-label-caps uppercase text-gold-600;
+  }
+
+  .h-display {
+    @apply font-display font-semibold tracking-[-0.02em] text-navy;
+  }
+
+  /* hairline card */
+  .card {
+    @apply rounded-md border border-line-subtle bg-paper-0 shadow-card;
+  }
+
+  .card-flat {
+    @apply rounded-md border border-line-subtle bg-paper-0;
+  }
+
+  /* navy feature card (journey progress, stats highlight) */
+  .card-navy {
+    @apply rounded-md bg-navy-grad text-white shadow-navy;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-paper-0 px-3 py-1 text-xs font-medium text-ink-600;
+  }
+
+  .chip-gold {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-gold-300 bg-gold-100 px-3 py-1 text-xs font-semibold text-gold-700;
+  }
+
+  .btn {
+    @apply inline-flex select-none items-center justify-center gap-2 rounded-sm px-5 py-3 text-sm font-semibold transition-all duration-200 active:scale-[0.98] disabled:opacity-40;
+  }
+
+  /* primary action — deep navy */
+  .btn-navy {
+    @apply btn bg-navy text-white hover:bg-navy-700;
+  }
+
+  /* flow CTA — architectural gold */
+  .btn-gold {
+    @apply btn bg-gold-grad text-navy hover:brightness-[1.03];
+  }
+
+  .btn-ghost {
+    @apply btn border border-line-strong bg-paper-0 text-ink-900 hover:border-navy-600/40 hover:text-navy;
+  }
+
+  .input {
+    @apply w-full rounded-sm border border-line-strong bg-paper-100 px-4 py-3 text-sm text-ink-900 placeholder:text-ink-400 transition-all focus:border-gold-500 focus:bg-paper-0 focus:shadow-focus focus:outline-none;
+  }
+
+  .hairline {
+    @apply h-px w-full bg-line;
+  }
+
+  .text-gradient-gold {
+    @apply bg-gold-grad bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .pb-safe {
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+  }
+  .pt-safe {
+    padding-top: max(env(safe-area-inset-top), 0px);
+  }
+}
