@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { CURRENT_USER, FEED, EVENTS } from '../data/mockData'
+import { CURRENT_USER, FEED, EVENTS, MARKETPLACE, SEED_GOALS } from '../data/mockData'
 import { scoreAssessment, ARCHETYPES } from '../data/archetypes'
 
 // Single source of truth for the prototype. Persisted to localStorage so the
@@ -83,6 +83,35 @@ export const useStore = create(
       toggleRsvp: (eventId) =>
         set((s) => ({ rsvps: { ...s.rsvps, [eventId]: !s.rsvps[eventId] } })),
 
+      // --- Phase 2: Builder Marketplace ---
+      marketplace: MARKETPLACE,
+      addMarketplacePost: (post) =>
+        set((s) => ({
+          marketplace: [
+            { id: 'mk-' + Math.random().toString(36).slice(2, 8), authorId: s.user.id, time: 'now', ...post },
+            ...s.marketplace,
+          ],
+        })),
+
+      // --- Phase 2: Goals ---
+      goals: SEED_GOALS,
+      addGoal: (category, title) =>
+        set((s) => ({
+          goals: [...s.goals, { id: 'g-' + Math.random().toString(36).slice(2, 8), category, title, progress: 0 }],
+        })),
+      setGoalProgress: (id, progress) =>
+        set((s) => ({
+          goals: s.goals.map((g) => (g.id === id ? { ...g, progress: Math.max(0, Math.min(100, progress)) } : g)),
+        })),
+      removeGoal: (id) => set((s) => ({ goals: s.goals.filter((g) => g.id !== id) })),
+
+      // --- Phase 2: Mentorship ---
+      mentorRequests: {}, // {memberId: true}
+      requestMentor: (memberId) =>
+        set((s) => ({ mentorRequests: { ...s.mentorRequests, [memberId]: true } })),
+      offeringMentorship: false,
+      toggleOfferMentorship: () => set((s) => ({ offeringMentorship: !s.offeringMentorship })),
+
       // --- onboarding checklist (First 90 Days) ---
       checklist: {}, // {itemId: true}
       toggleChecklistItem: (id) =>
@@ -111,6 +140,10 @@ export const useStore = create(
         rsvps: s.rsvps,
         comments: s.comments,
         checklist: s.checklist,
+        marketplace: s.marketplace,
+        goals: s.goals,
+        mentorRequests: s.mentorRequests,
+        offeringMentorship: s.offeringMentorship,
       }),
     }
   )

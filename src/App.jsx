@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import AppShell from './components/layout/AppShell'
@@ -6,6 +7,8 @@ import Toaster from './components/ui/Toaster'
 import { useStore } from './store/useStore'
 
 import Welcome from './screens/Welcome'
+// code-split: three.js only loads when the immersive intro is opened
+const WelcomeImmersive = lazy(() => import('./screens/WelcomeImmersive'))
 import Onboarding from './screens/Onboarding'
 import Join from './screens/Join'
 import Home from './screens/Home'
@@ -18,6 +21,9 @@ import Profile from './screens/Profile'
 import Assessment from './screens/Assessment'
 import AssessmentResult from './screens/AssessmentResult'
 import FounderDashboard from './screens/FounderDashboard'
+import Marketplace from './screens/Marketplace'
+import Goals from './screens/Goals'
+import Mentorship from './screens/Mentorship'
 
 const TAB_ROUTES = ['/home', '/circle', '/events', '/grow', '/profile']
 
@@ -35,6 +41,14 @@ export default function App() {
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Navigate to={signedIn ? '/home' : '/welcome'} replace />} />
             <Route path="/welcome" element={<Welcome />} />
+            <Route
+              path="/welcome/immersive"
+              element={
+                <Suspense fallback={<div className="screen flex items-center justify-center bg-navy text-gold-300">Loading…</div>}>
+                  <WelcomeImmersive />
+                </Suspense>
+              }
+            />
             <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/join" element={<Join />} />
 
@@ -48,6 +62,9 @@ export default function App() {
             <Route path="/assessment" element={gate(<Assessment />)} />
             <Route path="/assessment/result" element={gate(<AssessmentResult />)} />
             <Route path="/founder" element={gate(<FounderDashboard />)} />
+            <Route path="/marketplace" element={gate(<Marketplace />)} />
+            <Route path="/goals" element={gate(<Goals />)} />
+            <Route path="/mentorship" element={gate(<Mentorship />)} />
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

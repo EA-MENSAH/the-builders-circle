@@ -9,6 +9,7 @@ const paths = {
   user: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM5 20a7 7 0 0 1 14 0',
   search: 'm21 21-4.3-4.3M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14Z',
   plus: 'M12 5v14M5 12h14',
+  minus: 'M5 12h14',
   arrowRight: 'M5 12h14M13 6l6 6-6 6',
   arrowLeft: 'M19 12H5M11 6l-6 6 6 6',
   chevronRight: 'm9 6 6 6-6 6',

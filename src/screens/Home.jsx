@@ -18,6 +18,12 @@ const QUICK = [
   { to: '/grow', icon: 'book', label: 'Learning' },
 ]
 
+const TOOLS = [
+  { to: '/marketplace', icon: 'handshake', label: 'Marketplace', desc: 'Build · Need · Offer' },
+  { to: '/goals', icon: 'target', label: 'Goals', desc: 'Track your growth' },
+  { to: '/mentorship', icon: 'groups', label: 'Mentorship', desc: 'Give & receive' },
+]
+
 export default function Home() {
   const navigate = useNavigate()
   const user = useStore((s) => s.user)
@@ -223,6 +229,27 @@ export default function Home() {
           <button key={q.label} onClick={() => navigate(q.to)} className="card-flat flex flex-col items-center gap-2 py-4 active:scale-[0.97]">
             <Icon name={q.icon} size={22} className="text-gold-700" />
             <span className="text-[11px] font-semibold text-ink-600">{q.label}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* builder tools (Phase 2) */}
+      <SectionTitle title="Builder tools" navigate={navigate} />
+      <div className="mb-6 space-y-2.5">
+        {TOOLS.map((t) => (
+          <button
+            key={t.to}
+            onClick={() => navigate(t.to)}
+            className="card flex w-full items-center gap-3.5 p-3.5 text-left active:scale-[0.99]"
+          >
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-navy text-gold-300">
+              <Icon name={t.icon} size={20} />
+            </span>
+            <div className="min-w-0 flex-1">
+              <div className="text-sm font-semibold text-navy">{t.label}</div>
+              <div className="text-[11px] text-ink-400">{t.desc}</div>
+            </div>
+            <Icon name="chevronRight" size={18} className="text-ink-200" />
           </button>
         ))}
       </div>

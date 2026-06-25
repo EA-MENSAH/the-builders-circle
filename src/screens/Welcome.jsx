@@ -66,6 +66,12 @@ export default function Welcome() {
         >
           Already a member? <span className="font-semibold text-gold-700">Sign in</span>
         </button>
+        <button
+          onClick={() => navigate('/welcome/immersive')}
+          className="flex w-full items-center justify-center gap-1.5 text-center text-xs font-medium text-ink-400"
+        >
+          <Icon name="sparkle" size={13} className="text-gold-600" /> View the immersive intro
+        </button>
         <p className="pt-1 text-center text-[11px] uppercase tracking-[0.12em] text-ink-400">
           Phase 0 · June – August 2026
         </p>

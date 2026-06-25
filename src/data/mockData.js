@@ -509,6 +509,62 @@ export const BUILDER_JOURNEY = [
   'Lift',
 ]
 
+// ---- Phase 2: Builder Marketplace ------------------------------------------
+// The signature "I'm Building / I Need / I Can Offer" format.
+export const MARKETPLACE = [
+  {
+    id: 'mk1',
+    authorId: 'm-kwame',
+    time: '3h',
+    building: 'A payments app for informal merchants across West Africa.',
+    need: 'Intros to merchant-acquiring banks and a founding designer.',
+    offer: 'Go-to-market playbooks and early-stage fundraising advice.',
+  },
+  {
+    id: 'mk2',
+    authorId: 'm-zara',
+    time: '1d',
+    building: 'A mentorship pipeline for young women in tech.',
+    need: '5 more mentors for the next cohort (2 hrs/month).',
+    offer: 'Programme design, facilitation, and impact measurement.',
+  },
+  {
+    id: 'mk3',
+    authorId: 'm-naa',
+    time: '2d',
+    building: 'A homegrown design label and a maker community space.',
+    need: 'A co-founder for operations and a physical venue in Accra.',
+    offer: 'Creative direction, brand identity, and building in public.',
+  },
+  {
+    id: 'mk4',
+    authorId: 'm-tunde',
+    time: '4d',
+    building: 'A syndicate backing early-stage African founders.',
+    need: 'Deal flow — founders raising pre-seed to seed.',
+    offer: 'Financial modelling, diligence, and investor readiness.',
+  },
+]
+
+// ---- Phase 2: Mentorship Matching ------------------------------------------
+// Members who have opted to mentor, plus the (future) Fellows tier.
+export const MENTORS = [
+  { id: 'm-henry', topics: ['Partnerships', 'Fundraising', 'Networking'], capacity: '2 mentees' },
+  { id: 'm-zara', topics: ['Mentorship', 'Impact', 'Programme design'], capacity: '3 mentees' },
+  { id: 'm-tunde', topics: ['Finance', 'Investing', 'Strategy'], capacity: '1 mentee' },
+  { id: 'm-david', topics: ['Faith & Purpose', 'Governance', 'Ethics'], capacity: '2 mentees' },
+  { id: 'm-deborah', topics: ['Operations', 'Community', 'Events'], capacity: '2 mentees' },
+]
+
+// ---- Phase 2: Goal Tracking ------------------------------------------------
+export const GOAL_CATEGORIES = ['Personal', 'Professional', 'Learning']
+
+export const SEED_GOALS = [
+  { id: 'g1', category: 'Professional', title: 'Ship the TBC platform MVP', progress: 70 },
+  { id: 'g2', category: 'Learning', title: 'Complete the August communication cycle', progress: 30 },
+  { id: 'g3', category: 'Personal', title: 'Have one intentional conversation a week', progress: 50 },
+]
+
 export function memberById(id) {
   if (id === CURRENT_USER.id) return CURRENT_USER
   return MEMBERS.find((m) => m.id === id)

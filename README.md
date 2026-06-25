@@ -91,7 +91,14 @@ src/
   `colors.navy` / `colors.gold` / `colors.paper`.
 - **Backend**: swap the Zustand mock store for an API/Supabase layer; the data
   shapes in `src/data/` are the contract.
-- **Phase 2** (already scaffolded conceptually): Builder Introductions,
-  Marketplace, Goal Tracking, Mentorship Matching, Recognition, Discussion
-  Groups, Project Spaces.
+- **Phase 2 (built):** Builder Introductions (Home), **Builder Marketplace**
+  (`/marketplace` — I'm Building / I Need / I Can Offer), **Goal Tracking**
+  (`/goals` — personal/professional/learning with progress), **Mentorship
+  Matching** (`/mentorship` — seek/offer + request). Surfaced via the "Builder
+  tools" section on the Dashboard. Still open: Recognition, Discussion Groups,
+  Project Spaces.
+- **Immersive intro:** `/welcome/immersive` — a navy 3D landing (faithful port
+  of the Stitch "Calm 3D" Three.js scene: Core / Network / Rays = the three
+  pillars). Code-split so three.js only loads on that route. Reachable from the
+  classic Welcome via "View the immersive intro".
 ```
