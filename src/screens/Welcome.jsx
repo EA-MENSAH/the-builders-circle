@@ -1,18 +1,21 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Mark } from '../components/ui/Logo'
 import Icon from '../components/ui/Icon'
+import WelcomeMenu from '../components/WelcomeMenu'
 
 const PILLS = ['Level Up', 'Link Up', 'Lift Up']
 
 export default function Welcome() {
   const navigate = useNavigate()
+  const [menu, setMenu] = useState(false)
 
   return (
     <div className="screen flex flex-col px-7 pb-9 pt-safe">
       {/* top bar */}
       <div className="flex items-center justify-between border-b border-line-subtle py-4">
-        <button className="text-ink-600" aria-label="Menu">
+        <button onClick={() => setMenu(true)} className="text-ink-600 active:scale-95" aria-label="Menu">
           <Icon name="menu" size={22} />
         </button>
         <span className="font-display text-[13px] font-semibold uppercase tracking-[0.14em] text-navy">
@@ -76,6 +79,8 @@ export default function Welcome() {
           Phase 0 · June – August 2026
         </p>
       </motion.div>
+
+      <WelcomeMenu open={menu} onClose={() => setMenu(false)} variant="classic" />
     </div>
   )
 }

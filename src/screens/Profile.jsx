@@ -6,6 +6,8 @@ import Icon from '../components/ui/Icon'
 import BuilderCodeSheet from '../components/BuilderCodeSheet'
 import { EditProfileSheet } from '../components/sheets'
 import { useStore } from '../store/useStore'
+import { useAuth } from '../lib/auth'
+import { isSupabaseConfigured } from '../lib/supabase'
 import { ARCHETYPES } from '../data/archetypes'
 import { BUILDER_JOURNEY, BUILDER_CODE } from '../data/mockData'
 
@@ -110,7 +112,11 @@ export default function Profile() {
       </button>
 
       <button
-        onClick={() => { signOut(); navigate('/welcome', { replace: true }) }}
+        onClick={async () => {
+          if (isSupabaseConfigured) await useAuth.getState().signOut()
+          signOut()
+          navigate('/welcome', { replace: true })
+        }}
         className="mb-6 flex w-full items-center justify-center gap-2 rounded-full border border-line bg-paper-0 py-3 text-sm font-semibold text-ink-600"
       >
         <Icon name="logout" size={17} /> Sign out

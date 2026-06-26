@@ -1,7 +1,12 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { CURRENT_USER, FEED, EVENTS, MARKETPLACE, SEED_GOALS, RECOGNITIONS, PROJECT_SPACES } from '../data/mockData'
+import {
+  CURRENT_USER, FEED, EVENTS, MARKETPLACE, SEED_GOALS, RECOGNITIONS, PROJECT_SPACES,
+  MEMBERS, registerProfiles,
+} from '../data/mockData'
 import { scoreAssessment, ARCHETYPES } from '../data/archetypes'
+import { isSupabaseConfigured } from '../lib/supabase'
+import * as db from '../lib/db'
 
 // Single source of truth for the prototype. Persisted to localStorage so the
 // app remembers your assessment, RSVPs, cheers and posts between visits.
@@ -18,64 +23,108 @@ export const useStore = create(
       // --- the current user + builder profile ---
       user: CURRENT_USER,
       builderProfile: null, // set after the assessment
+      members: MEMBERS, // directory (replaced by real profiles when backend is live)
+      backendReady: !isSupabaseConfigured,
+
+      // Load everything for the signed-in user from Supabase (live mode only).
+      hydrate: async (authUser) => {
+        if (!isSupabaseConfigured || !authUser) return
+        const [me0, profiles, feed, cheered, assessment] = await Promise.all([
+          db.getMyProfile(authUser.id),
+          db.getProfiles(),
+          db.getFeed(),
+          db.getCheered(authUser.id),
+          db.getAssessment(authUser.id),
+        ])
+        const me =
+          me0 ||
+          profiles.find((p) => p.id === authUser.id) || {
+            id: authUser.id,
+            name: (authUser.email || 'Builder').split('@')[0],
+            role: 'Member', profession: '', location: '', expertise: [],
+            building: '', canHelp: '', archetype: null,
+            initials: (authUser.email || 'B').slice(0, 2).toUpperCase(),
+            accent: '#CFA646', founder: false, joinedStage: 'Participate',
+          }
+        const map = Object.fromEntries(profiles.map((p) => [p.id, p]))
+        map[me.id] = me
+        registerProfiles(map)
+        set({
+          user: me,
+          members: profiles.filter((p) => p.id !== me.id),
+          feed,
+          cheered,
+          builderProfile: assessment,
+          signedIn: true,
+          backendReady: true,
+        })
+      },
 
       saveAssessment: (answers) => {
         const profile = scoreAssessment(answers)
-        set((s) => ({
-          builderProfile: profile,
-          user: { ...s.user, archetype: profile.primary },
-        }))
+        set((s) => ({ builderProfile: profile, user: { ...s.user, archetype: profile.primary } }))
+        if (isSupabaseConfigured) {
+          db.saveAssessment(get().user.id, profile)
+          db.updateProfile(get().user.id, { archetype: profile.primary })
+        }
         return profile
       },
       resetAssessment: () =>
         set((s) => ({ builderProfile: null, user: { ...s.user, archetype: null } })),
 
-      updateUser: (patch) => set((s) => ({ user: { ...s.user, ...patch } })),
+      updateUser: (patch) => {
+        set((s) => ({ user: { ...s.user, ...patch } }))
+        if (isSupabaseConfigured) db.updateProfile(get().user.id, patch)
+      },
 
       // --- community feed ---
       feed: FEED,
       cheered: {}, // {postId: true}
-      toggleCheer: (postId) =>
-        set((s) => {
-          const on = !!s.cheered[postId]
-          return {
-            cheered: { ...s.cheered, [postId]: !on },
-            feed: s.feed.map((p) =>
-              p.id === postId ? { ...p, cheers: p.cheers + (on ? -1 : 1) } : p
-            ),
-          }
-        }),
-      addPost: (type, body) =>
+      toggleCheer: (postId) => {
+        const on = !!get().cheered[postId]
+        set((s) => ({
+          cheered: { ...s.cheered, [postId]: !on },
+          feed: s.feed.map((p) => (p.id === postId ? { ...p, cheers: p.cheers + (on ? -1 : 1) } : p)),
+        }))
+        if (isSupabaseConfigured) db.setCheer(get().user.id, postId, !on)
+      },
+      addPost: async (type, body) => {
+        if (isSupabaseConfigured) {
+          const post = await db.addPost(get().user.id, type, body)
+          if (post) set((s) => ({ feed: [post, ...s.feed] }))
+          return
+        }
         set((s) => ({
           feed: [
-            {
-              id: 'f-' + Math.random().toString(36).slice(2, 8),
-              type,
-              authorId: s.user.id,
-              time: 'now',
-              body,
-              cheers: 0,
-              comments: 0,
-            },
+            { id: 'f-' + Math.random().toString(36).slice(2, 8), type, authorId: s.user.id, time: 'now', body, cheers: 0, comments: 0 },
             ...s.feed,
           ],
-        })),
+        }))
+      },
 
       // --- comments ---
       comments: {}, // {postId: [{id, authorId, body, time}]}
-      addComment: (postId, body) =>
-        set((s) => {
-          const c = {
-            id: 'c-' + Math.random().toString(36).slice(2, 8),
-            authorId: s.user.id,
-            body,
-            time: 'now',
-          }
-          return {
-            comments: { ...s.comments, [postId]: [...(s.comments[postId] || []), c] },
-            feed: s.feed.map((p) => (p.id === postId ? { ...p, comments: p.comments + 1 } : p)),
-          }
-        }),
+      loadComments: async (postId) => {
+        if (!isSupabaseConfigured) return
+        const list = await db.getComments(postId)
+        set((s) => ({ comments: { ...s.comments, [postId]: list } }))
+      },
+      addComment: async (postId, body) => {
+        if (isSupabaseConfigured) {
+          const c = await db.addComment(get().user.id, postId, body)
+          if (c)
+            set((s) => ({
+              comments: { ...s.comments, [postId]: [...(s.comments[postId] || []), c] },
+              feed: s.feed.map((p) => (p.id === postId ? { ...p, comments: p.comments + 1 } : p)),
+            }))
+          return
+        }
+        const c = { id: 'c-' + Math.random().toString(36).slice(2, 8), authorId: get().user.id, body, time: 'now' }
+        set((s) => ({
+          comments: { ...s.comments, [postId]: [...(s.comments[postId] || []), c] },
+          feed: s.feed.map((p) => (p.id === postId ? { ...p, comments: p.comments + 1 } : p)),
+        }))
+      },
 
       // --- events / RSVP ---
       events: EVENTS,

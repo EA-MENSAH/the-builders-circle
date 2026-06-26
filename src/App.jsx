@@ -1,10 +1,12 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import AppShell from './components/layout/AppShell'
 import TabBar from './components/layout/TabBar'
 import Toaster from './components/ui/Toaster'
 import { useStore } from './store/useStore'
+import { useAuth } from './lib/auth'
+import { isSupabaseConfigured } from './lib/supabase'
 
 import Welcome from './screens/Welcome'
 // code-split: three.js only loads when the immersive intro is opened
@@ -35,10 +37,32 @@ const TAB_ROUTES = ['/home', '/circle', '/events', '/grow', '/profile']
 
 export default function App() {
   const location = useLocation()
-  const signedIn = useStore((s) => s.signedIn)
-  const showTabBar = TAB_ROUTES.includes(location.pathname)
+  const storeSignedIn = useStore((s) => s.signedIn)
+  const authReady = useAuth((s) => s.ready)
+  const session = useAuth((s) => s.session)
 
+  // start the auth listener once
+  useEffect(() => useAuth.getState().init(), [])
+
+  // when a real session appears, load that member's data
+  useEffect(() => {
+    if (isSupabaseConfigured && session) useStore.getState().hydrate(session.user)
+  }, [session])
+
+  const signedIn = isSupabaseConfigured ? !!session : storeSignedIn
+  const showTabBar = TAB_ROUTES.includes(location.pathname)
   const gate = (el) => (signedIn ? el : <Navigate to="/welcome" replace />)
+
+  // avoid a redirect flash before the session is known (live mode only)
+  if (isSupabaseConfigured && !authReady) {
+    return (
+      <AppShell>
+        <div className="screen flex items-center justify-center">
+          <span className="text-sm text-ink-400">Loading…</span>
+        </div>
+      </AppShell>
+    )
+  }
 
   return (
     <AppShell>

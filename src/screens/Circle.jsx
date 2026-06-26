@@ -7,7 +7,6 @@ import Icon from '../components/ui/Icon'
 import { FeedCard, MemberRow } from '../components/cards'
 import { useStore } from '../store/useStore'
 import { toast } from '../store/useToast'
-import { MEMBERS } from '../data/mockData'
 
 export default function Circle() {
   const [tab, setTab] = useState('feed')
@@ -106,11 +105,12 @@ function Feed() {
 }
 
 function Directory() {
+  const members = useStore((s) => s.members)
   const [q, setQ] = useState('')
   const [foundersOnly, setFoundersOnly] = useState(false)
   const query = q.trim().toLowerCase()
 
-  const results = MEMBERS.filter((m) => {
+  const results = members.filter((m) => {
     if (foundersOnly && !m.founder) return false
     if (!query) return true
     return (

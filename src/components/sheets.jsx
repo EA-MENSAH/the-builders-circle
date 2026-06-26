@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Sheet from './ui/Sheet'
 import Avatar from './ui/Avatar'
 import Icon from './ui/Icon'
@@ -67,8 +67,13 @@ function Labeled({ label, children }) {
 export function CommentsSheet({ postId, open, onClose }) {
   const comments = useStore((s) => (postId ? s.comments[postId] : null)) || []
   const addComment = useStore((s) => s.addComment)
+  const loadComments = useStore((s) => s.loadComments)
   const user = useStore((s) => s.user)
   const [text, setText] = useState('')
+
+  useEffect(() => {
+    if (open && postId) loadComments(postId)
+  }, [open, postId, loadComments])
 
   const send = () => {
     if (!text.trim()) return

@@ -32,8 +32,10 @@ Build for production: `npm run build` → `dist/`.
 - **Tailwind CSS** — the design system (tokens in `tailwind.config.js`)
 - **Framer Motion** — screen transitions & micro-interactions
 - **React Router** — navigation
-- **Zustand** (+ `persist`) — state, saved to `localStorage` (this is a
-  front-end prototype with realistic mock data; no backend yet)
+- **Zustand** (+ `persist`) — state, saved to `localStorage` in mock mode
+- **Supabase** (optional) — real magic-link auth + shared Postgres data. The app
+  runs fully on mock data with no setup; add Supabase keys to go live. See
+  [SETUP-SUPABASE.md](SETUP-SUPABASE.md).
 
 ---
 
@@ -89,8 +91,11 @@ src/
 - **Theme**: matched to the real Stitch “Architectural Prestige” design system
   (light navy + gold, Inter). Tune tokens in `tailwind.config.js` →
   `colors.navy` / `colors.gold` / `colors.paper`.
-- **Backend**: swap the Zustand mock store for an API/Supabase layer; the data
-  shapes in `src/data/` are the contract.
+- **Backend (built, optional)**: magic-link auth + shared data via Supabase,
+  behind the `isSupabaseConfigured` flag (`src/lib/`: `supabase.js`, `auth.js`,
+  `db.js`; schema in `supabase/schema.sql`). Live now: auth, profiles, directory,
+  feed + comments + cheers, assessment. Events/RSVP + Phase 2 tables exist in the
+  schema and follow the same wiring pattern. Setup: [SETUP-SUPABASE.md](SETUP-SUPABASE.md).
 - **Phase 2 (built):** Builder Introductions (Home) · **Marketplace**
   (`/marketplace` — I'm Building / I Need / I Can Offer) · **Goal Tracking**
   (`/goals`) · **Mentorship** (`/mentorship`) · **Recognition** (`/recognition`)

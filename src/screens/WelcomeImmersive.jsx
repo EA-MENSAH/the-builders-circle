@@ -1,13 +1,16 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import ImmersiveHero from '../components/ImmersiveHero'
 import { Mark } from '../components/ui/Logo'
 import Icon from '../components/ui/Icon'
+import WelcomeMenu from '../components/WelcomeMenu'
 
 const PILLS = ['Level Up', 'Link Up', 'Lift Up']
 
 export default function WelcomeImmersive() {
   const navigate = useNavigate()
+  const [menu, setMenu] = useState(false)
 
   return (
     <div className="screen relative flex flex-col bg-navy text-white">
@@ -22,7 +25,7 @@ export default function WelcomeImmersive() {
       <div className="relative z-10 flex flex-1 flex-col px-7 pb-9 pt-safe">
         {/* top bar */}
         <div className="flex items-center justify-between border-b border-white/10 py-4">
-          <button className="text-white/70" aria-label="Menu"><Icon name="menu" size={22} /></button>
+          <button onClick={() => setMenu(true)} className="text-white/70 active:scale-95" aria-label="Menu"><Icon name="menu" size={22} /></button>
           <span className="font-display text-[13px] font-semibold uppercase tracking-[0.14em] text-gold-300">
             The Builders Circle
           </span>
@@ -75,6 +78,8 @@ export default function WelcomeImmersive() {
           </p>
         </motion.div>
       </div>
+
+      <WelcomeMenu open={menu} onClose={() => setMenu(false)} variant="immersive" />
     </div>
   )
 }

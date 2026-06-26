@@ -644,7 +644,15 @@ export const PROJECT_SPACES = [
 
 export const PROJECT_STATUS_TONE = { Active: 'gold', Forming: 'navy', Planning: 'muted' }
 
+// When the Supabase backend is live, real profiles are registered here so that
+// memberById() resolves them everywhere — no call sites need to change.
+let liveProfiles = null
+export function registerProfiles(map) {
+  liveProfiles = map
+}
+
 export function memberById(id) {
+  if (liveProfiles && liveProfiles[id]) return liveProfiles[id]
   if (id === CURRENT_USER.id) return CURRENT_USER
   return MEMBERS.find((m) => m.id === id)
 }
